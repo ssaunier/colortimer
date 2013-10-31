@@ -1,6 +1,7 @@
 # ColorTimer
 
-Visual color timer to implement the
+[Visual color timer](http://sebastien.saunier.me/colortimer/)
+implements the
 [Pomodoro Technique](https://en.wikipedia.org/wiki/Pomodoro_Technique) in which
 you work by batches of 25 minutes and rest for 5 minutes.
 
