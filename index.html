@@ -22,11 +22,11 @@
 
       #main {
         text-align: center;
-        margin-top: 33vh;
+        margin-top: 30vh;
       }
       .counter {
         font-family: "Lato",Helvetica,Arial,sans-serif;
-        font-size: 16vh;
+        font-size: 14vh;
         background: transparent;
         border: none;
         text-align: center;
@@ -35,29 +35,33 @@
       }
 
       button {
-        background-color: #7f8c8d;
+        border: 1px solid #7f8c8d;
         border-radius: 6px;
-        border-style: none;
-        color: white;
+        color: #7f8c8d;
         cursor: pointer;
         transition-delay: 0s;
         transition-duration: 0.25s;
         transition-property: all;
         transition-timing-function: cubic-bezier(0, 0, 1, 1);
         white-space: normal;
-        font-size: 8vh;
-        padding: 1vh 2vh;
+        font-size: 4vh;
+        font-family: "Lato",Helvetica,Arial,sans-serif;
+        padding: 2vh 8vh;
+        margin-top: 4vh;
       }
 
       button:hover {
         background-color: #2ecc71;
+        color: white;
+        border-color: #2ecc71;
       }
     </style>
+    <link href='http://fonts.googleapis.com/css?family=Lato:100' rel='stylesheet' type='text/css'>
   </head>
   <body>
     <div id="main">
       <input class="counter" value="25:00" placeholder="25:00"></input>
-      <button>Start</button>
+      <button>start</button>
     </div>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
