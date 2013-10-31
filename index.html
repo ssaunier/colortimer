@@ -11,19 +11,38 @@
       .emerald { background-color: #2ecc71; }
       .peter-river { background-color: #3498db; }
       .sun-flower { background-color: #f1c40f; }
-      .pumpkin { background-color}
+      .pumpkin { background-color: #d35400; }
       .pomegranate { background-color: #c0392b; }
       .black { background-color: #000; }
 
       body {
         font-family: "Lato",Helvetica,Arial,sans-serif;
         background-color: #ecf0f1;
+        transition: all 0.75s cubic-bezier(.56,.28,.69,.97) 0s;
+      }
+
+      body.emerald {
+        transition-delay: 1s;
+      }
+
+      #break {
+        text-align: center;
+        font-size: 4vh;
       }
 
       #main {
         text-align: center;
-        margin-top: 30vh;
+        margin-top: 20vh;
       }
+
+      #break, #main {
+        transition: all 0.75s cubic-bezier(.56,.28,.69,.97) 0.50s;
+      }
+
+      .started {
+        opacity: 0;
+      }
+
       .counter {
         font-family: "Lato",Helvetica,Arial,sans-serif;
         font-size: 14vh;
@@ -39,11 +58,7 @@
         border-radius: 6px;
         color: #7f8c8d;
         cursor: pointer;
-        transition-delay: 0s;
-        transition-duration: 0.25s;
-        transition-property: all;
-        transition-timing-function: cubic-bezier(0, 0, 1, 1);
-        white-space: normal;
+        transition: all 0.40s cubic-bezier(.57,.39,.59,.95) 0s;
         font-size: 4vh;
         font-family: "Lato",Helvetica,Arial,sans-serif;
         padding: 2vh 8vh;
@@ -59,15 +74,93 @@
     <link href='http://fonts.googleapis.com/css?family=Lato:100' rel='stylesheet' type='text/css'>
   </head>
   <body>
+    <div id="break" class="started">
+      Take a 5 minutes break, and start over.
+    </div>
     <div id="main">
       <input class="counter" value="25:00" placeholder="25:00"></input>
-      <button>start</button>
+      <button id="start">start</button>
     </div>
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/zepto/1.0/zepto.min.js"></script>
     <script type="text/javascript">
-      var COLORS = "emerald peter-river sun-flower pumpkin pomegranate black".split(" ");
+      (function() {
+        var COLORS = "emerald peter-river sun-flower pumpkin pomegranate black".split(" ");
 
+        var duration = 25 * 60;
+        var started_at;
+        var interval = null;
+
+        function start() {
+          try {
+            duration = parseDuration();
+          } catch(e) {
+            alert(e);
+            return;
+          }
+
+          started_at = now();
+          if (interval) { clearInterval(interval); }
+          $('#main, #break').addClass('started');
+          $('body').removeClass().addClass(COLORS[0]);
+          interval = setInterval(updateColor, 1000);
+          setTimeout(function() { $('#main, #break').hide(); }, 5000);
+        }
+
+        function stop() {
+          clearInterval(interval);
+          document.title = "Break!";
+          $('#main, #break').show();
+          $('#main, body, #break').removeClass();
+        }
+
+        function parseDuration() {
+          var tokens = $('.counter').val().split(":");
+          if (tokens.length != 2) {
+            throw new Error("You must set a time with the 'mm:ss' format");
+          }
+          return 60 * parseInt(tokens[0]) + parseInt(tokens[1]);
+        }
+
+        function now() {
+          return parseInt(new Date().getTime() / 1000);
+        }
+
+        function timeRemaining() {
+          return started_at + duration - now();
+        }
+
+        function getColor() {
+          var remaining = timeRemaining();
+          var i = -1;
+          var half = duration;
+          while (remaining < half && i < (COLORS.length - 1)) {
+            i += 1;
+            half = half / 2;
+          }
+          return COLORS[i];
+        }
+
+        function updateColor() {
+          $('body').removeClass().addClass(getColor());
+          var remaining = timeRemaining();
+          if (remaining < 0) {
+            stop();
+          } else {
+            updateTitle(remaining);
+          }
+        }
+
+        function updateTitle(remaining) {
+          var min = parseInt(remaining / 60);
+          var sec = remaining % 60;
+          document.title = min + ":" + sec;
+        }
+
+        $(document).ready(function() {
+          $('#start').on('click', start);
+        });
+      })();
     </script>
   </body>
 </html>
