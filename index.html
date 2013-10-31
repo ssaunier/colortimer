@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Color Timer</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      /* Colors from http://flatuicolors.com/ */
+      .emerald { background-color: #2ecc71; }
+      .peter-river { background-color: #3498db; }
+      .sun-flower { background-color: #f1c40f; }
+      .pumpkin { background-color}
+      .pomegranate { background-color: #c0392b; }
+      .black { background-color: #000; }
+
+      body {
+        font-family: "Lato",Helvetica,Arial,sans-serif;
+        background-color: #ecf0f1;
+      }
+
+      #main {
+        text-align: center;
+        margin-top: 33vh;
+      }
+      .counter {
+        font-family: "Lato",Helvetica,Arial,sans-serif;
+        font-size: 16vh;
+        background: transparent;
+        border: none;
+        text-align: center;
+        color: #7f8c8d;
+        width: 100%;
+      }
+
+      button {
+        background-color: #7f8c8d;
+        border-radius: 6px;
+        border-style: none;
+        color: white;
+        cursor: pointer;
+        transition-delay: 0s;
+        transition-duration: 0.25s;
+        transition-property: all;
+        transition-timing-function: cubic-bezier(0, 0, 1, 1);
+        white-space: normal;
+        font-size: 8vh;
+        padding: 1vh 2vh;
+      }
+
+      button:hover {
+        background-color: #2ecc71;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="main">
+      <input class="counter" value="25:00" placeholder="25:00"></input>
+      <button>Start</button>
+    </div>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript">
+      var COLORS = "emerald peter-river sun-flower pumpkin pomegranate black".split(" ");
+
+    </script>
+  </body>
+</html>
