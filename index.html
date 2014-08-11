@@ -43,6 +43,19 @@
         margin-top: 20vh;
       }
 
+      #countdown {
+        position: fixed;
+        top: 50%;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        font-size: 32vh;
+        margin-top: -24vh;
+        z-index: -1;
+        text-align: center;
+        cursor: pointer;
+      }
+
       #break, #main {
         transition: all 0.75s cubic-bezier(.56,.28,.69,.97) 0.50s;
       }
@@ -89,6 +102,7 @@
       <input class="counter" value="25:00" placeholder="25:00"></input>
       <button id="start">start</button>
     </div>
+    <div id="countdown"></div>
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/zepto/1.0/zepto.min.js"></script>
     <script type="text/javascript">
@@ -111,6 +125,7 @@
           if (interval) { clearInterval(interval); }
           $('#main, #break').addClass('started');
           $('body').removeClass().addClass(COLORS[0]);
+          $('#countdown').show();
           interval = setInterval(updateColor, 1000);
           setTimeout(function() { $('#main, #break').hide(); }, 5000);
         }
@@ -120,6 +135,7 @@
           document.title = "Break!";
           $('#main, #break').show();
           $('#main, body, #break').removeClass();
+          $('#countdown').hide();
           setFavicon();
         }
 
@@ -158,14 +174,27 @@
             stop();
           } else {
             updateTitle(remaining);
+            updateCountdown(remaining);
           }
         }
 
         function updateTitle(remaining) {
+          document.title = remainingToMinSec(remaining);
+        }
+
+        function updateCountdown(remaining) {
+          if ($('#countdown').data('hidden')) {
+            $('#countdown').html("");
+          } else {
+            $('#countdown').html(remainingToMinSec(remaining));
+          }
+        }
+
+        function remainingToMinSec(remaining) {
           var min = parseInt(remaining / 60);
           var sec = remaining % 60;
           sec = sec < 10 ? ("0" + sec) : sec;
-          document.title = min + ":" + sec;
+          return min + ":" + sec;
         }
 
         function setFavicon() {
@@ -181,8 +210,18 @@
           $('#favicon').attr('href', canvas.toDataURL(0)).remove().appendTo('head');
         }
 
+        function toggleCountdown() {
+          if ($('#countdown').data('hidden')) {
+            $('#countdown').data('hidden', false);
+          } else {
+            $('#countdown').data('hidden', true);
+          }
+          updateCountdown(timeRemaining());
+        }
+
         $(document).ready(function() {
           $('#start').on('click', start);
+          $('#countdown').on('click', toggleCountdown)
         });
       })();
     </script>
